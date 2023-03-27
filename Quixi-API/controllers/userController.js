@@ -16,14 +16,14 @@ exports.createUser = async (req, res) => {
             newUser._id
         );
         await session.commitTransaction();
-        res.status(201).json({user: newUser, Credential: newCredential});
+        res.status(201).json({user: newUser});
     } catch (e) {
         await session.abortTransaction();
         res
             .status(500)
             .send({message: e.message || "There was an error saving the user"});
     } finally {
-        session.endSession();
+        await session.endSession();
     }
 };
 
