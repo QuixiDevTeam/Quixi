@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const morgan = require("morgan");
 const bodyparser = require("body-parser");
 const app = express();
+const cors = require('cors');
 
 //Import the DB connection from the config
 const connectDB = require("./config/database");
@@ -38,6 +39,16 @@ app.use((req, res, next) => {
     }
     next();
 });
+
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`,'\n');
+    console.log(`Headers: ${JSON.stringify(req.headers)}`,'\n');
+    console.log(`Body: ${JSON.stringify(req.body)}`,'\n');
+    console.log(`Query: ${JSON.stringify(req.query)}`,'\n');
+    console.log(`hostname: ${JSON.stringify(req.hostname)}`,'\n');
+    next();
+});
+
 
 /**
  * Mounts the specified middleware function or router at the specified path.

@@ -15,7 +15,7 @@ exports.createGroup = async (req, res) => {
     }
 }
 
-exports.find = async (res, req) => {
+exports.find = async (req, res) => {
     try {
         let group;
         if (req.query.id) {
@@ -29,6 +29,16 @@ exports.find = async (res, req) => {
             })
         }
         res.status(200).json({group})
+    } catch (e) {
+        res.status(500).json({message: e.message || "Server Error"});
+    }
+}
+
+exports.findGroupByUserID = async (req, res) => {
+    try {
+        let userId = req.params.user;
+        const groups = await groupService.findGroupByUserId(userId);
+        res.status(200).json({groups});
     } catch (e) {
         res.status(500).json({message: e.message || "Server Error"});
     }
