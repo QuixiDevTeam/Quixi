@@ -13,42 +13,13 @@ export default function PinScreen({navigation}) {
     const pinInputs = useRef([]);
 
     const handlePinChange = (index, value) => {
-        // const newPin = pin.split('');
-        // newPin[index] = value;
-        // setPin(newPin.join(''));
-        // if (value && index < 3) {
-        //     pinInputs.current[index + 1].focus();
-        // } else if (!value && index > 0) {
-        //     pinInputs.current[index - 1].focus();
-        // }
-        if (value!=='') {
-            switch (index) {
-                case 0:
-                    const x = pin.split('');
-                    x[index] = value;
-                    setPin(x.join(''));
-                    pinInputs.current[1].focus();
-                    break
-                case 1:
-                    const y = pin.split('');
-                    y[index] = value;
-                    setPin(y.join(''));
-                    pinInputs.current[2].focus();
-                    break
-                case 2:
-                    const z = pin.split('');
-                    z[index] = value;
-                    setPin(z.join(''));
-                    pinInputs.current[3].focus();
-                    break
-                case 3:
-                    const w = pin.split('');
-                    w[index] = value;
-                    setPin(w.join(''));
-                    break
-                default:
-                    break
-            }
+        const newPin = pin.split('');
+        newPin[index] = value;
+        setPin(newPin.join(''));
+        if (value && index < 3) {
+            pinInputs.current[index + 1].focus();
+        } else if (!value && index > 0) {
+            pinInputs.current[index - 1].focus();
         }
     };
 

@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
-import {
-    StyleSheet,
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    SafeAreaView,
-} from 'react-native';
+import {StyleSheet, View, Text, TextInput, TouchableOpacity, SafeAreaView, Alert,} from 'react-native';
 
 export default function ForgotPassword({navigation}) {
     const [email, setEmail] = useState('');
 
     const handleResetPassword = () => {
         // Handle password reset logic
+        Alert.alert(
+            'Reset Password',
+            'An email has been sent to ****ple@mail.com containing a link to change you pin. \n' +
+            'Please check your spam folder if the email is not available.',
+            [
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: false }
+        );
     };
 
     return (
