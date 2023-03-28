@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {createStackNavigator} from "@react-navigation/stack";
 import Groups from "../screens/Main/Groups"
 import Group from "../screens/Main/Group Screens/Group"

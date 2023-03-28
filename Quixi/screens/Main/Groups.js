@@ -1,26 +1,29 @@
+// Import necessary libraries and components
 import * as React from 'react';
 import {
     Text, View, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView, Image, ActivityIndicator, RefreshControl
 } from "react-native";
+
 import {StatusBar} from "expo-status-bar";
-import {Ionicons} from "@expo/vector-icons";
 import {COLORS} from "../../assets/constants/colors";
 import {useEffect, useState} from "react";
-import Axios from "axios"
-import {GROUP_ROUTES} from "../../assets/constants/routes";
+import Axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import {STRINGS} from "../../assets/constants/strings";
 import Icon from "react-native-vector-icons/Ionicons";
-import CreateGroup from '../Main/Group Screens/CreateGroup';
+import {GROUP_ROUTES} from "../../assets/constants/routes"; // Import API routes
+
 
 
 export default function Groups({navigation}) {
+
+    // Define state variables for the component
     const [list, setList] = useState({})
     const [userId, setUserId] = useState('')
     const [token, setToken] = useState('')
     const [refreshing, setRefreshing] = useState(false)
 
-
+    // Use useEffect hook to fetch data and initialize component state variables
     useEffect(() => {
         async function fetchData() {
             await getToken();
@@ -31,6 +34,7 @@ export default function Groups({navigation}) {
         fetchData();
     }, []);
 
+    // Use useEffect hook to update the group list when userId or token changes
     useEffect(() => {
         console.log(userId, token)
         if (userId && token) {
@@ -40,7 +44,7 @@ export default function Groups({navigation}) {
         }
     }, [userId, token]);
 
-
+    // Define a function to retrieve the list of groups associated with a userId
     const getGroupList = async () => {
         console.log(userId)
         console.log(token)
@@ -62,21 +66,26 @@ export default function Groups({navigation}) {
                 console.log(error.response.message);
             });
     }
+
+    // Define a function to retrieve the userId from secure storage
     const getUserId = async () => {
         const userId = await SecureStore.getItemAsync('userId');
         setUserId(userId);
     }
 
+    // Define a function to retrieve the authentication token from secure storage
     const getToken = async () => {
         const token = await SecureStore.getItemAsync('token');
         setToken(token);
     }
 
+    // Define a function to handle a press event on a group slot
     function handlePress(id) {
         console.log(id)
         navigation.navigate('Group', {groupId: id});
     }
 
+    // Define a function to handle a refresh event
     function onRefresh() {
         if (userId && token) {
             getGroupList();
@@ -89,16 +98,19 @@ export default function Groups({navigation}) {
             <View style={styles.bottomSheet}>
                 <View style={styles.compTitle}>
                     <Text style={styles.compTitleStyle}>{STRINGS.GROUPS}</Text>
-                    <TouchableOpacity style={styles.createGroupIcon} onPress={()=>navigation.navigate('CreateGroup',)} >
-                        <Icon name="add-circle" size={30} color="#000" />
-                    </TouchableOpacity>
+                    {/* add icon for create new groups */}
+                        <TouchableOpacity style={styles.createGroupIcon} onPress={()=>navigation.navigate('CreateGroup',)} >
+                            <Icon name="add-circle" size={30} color="#000" />
+                        </TouchableOpacity>
                 </View>
-                <View style={{height: 620}}>
+                {/* set scrolling screen height */}
+                <View style={{height: 620}}> 
                     <ScrollView style={styles.scrollView}
                                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
                         {list.groups && list.groups.map((group, index) => (
                             <TouchableOpacity key={index} onPress={() => handlePress(group._id)}
                                               style={styles.groupSlot}>
+
                                 <View style={styles.membersImageRow}>
                                     <Image style={[styles.image, styles.image1]}
                                            source={{uri: 'https://picsum.photos/id/100/200/200'}}/>
@@ -107,23 +119,29 @@ export default function Groups({navigation}) {
                                     <Image style={[styles.image, styles.image3]}
                                            source={{uri: 'https://picsum.photos/id/102/200/200'}}/>
                                 </View>
+
                                 <View style={styles.groupRowDetail}>
                                     <Text style={styles.groupName}>{group.name}</Text>
                                 </View>
+
                                 <View style={styles.groupRowDetail}>
                                     <Text style={styles.groupCreatedBy} numberOfLines={1}>Group created
                                         by {group.description}</Text>
                                 </View>
+
                             </TouchableOpacity>))}
-                        <View style={styles.endTextContainer}>
-                            <Text style={styles.endText}> End of groups list </Text>
-                        </View>
+
+                            <View style={styles.endTextContainer}>
+                                <Text style={styles.endText}> End of groups list </Text>
+                            </View>
+
                     </ScrollView>
                 </View>
             </View>
         </SafeAreaView>);
 };
 
+// styles for Groups screen
 const styles = StyleSheet.create({
     bottomSheet: {
         height: '100%', 

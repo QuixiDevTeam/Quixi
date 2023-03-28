@@ -1,12 +1,12 @@
+// Import necessary libraries and components
 import * as React from 'react';
 import {Text, View, StyleSheet, SafeAreaView, Alert, TextInput, TouchableHighlight} from "react-native";
 import {Picker} from '@react-native-picker/picker';
 import {StatusBar} from "expo-status-bar";
 import {COLORS} from "../../../assets/constants/colors";
 import {useEffect, useState} from "react";
-import Axios from "axios"
+import Axios from "axios";
 import * as SecureStore from "expo-secure-store";
-
 import {GROUP_ROUTES} from "../../../assets/constants/routes"; // Importing the endpoint for creating a new group
 
 // Defining a functional component called CreateGroup
@@ -19,7 +19,7 @@ export default function CreateGroup({navigation}) {
 
     let [userId, setUserId] = useState("");
     let [token, setToken] = useState("");
-    let [user, setUser] = useState({});
+  
   
     // Defining a function that will update the selectValue state variable when the picker value changes
     const handlePickerChange = (value) => {
@@ -53,7 +53,7 @@ export default function CreateGroup({navigation}) {
             Alert.alert("Failed", "Please fill all fields")
         }else{
             let url = GROUP_ROUTES.CREATE;
-            
+
             // Constructing the group data object that will be sent in the request
             const groupData = {
                 'category': selectValue,
@@ -61,7 +61,6 @@ export default function CreateGroup({navigation}) {
                 'description': groupDescription,
                 'members': [userId]
               };
-
             // Constructing the request config object that will be sent with the request
             const config ={
                 method: 'post',
@@ -72,7 +71,6 @@ export default function CreateGroup({navigation}) {
                 },
                 data: groupData
             }
-
             // Sending the request to create the new group
             Axios(config)
             .then((response)=>{
@@ -115,8 +113,7 @@ export default function CreateGroup({navigation}) {
               </Picker>
 
               </View>  
-            
-            {/* Create button */}
+              {/* Create button */}
               <TouchableHighlight
                   style={{
                     backgroundColor: '#010b40',
@@ -144,7 +141,7 @@ export default function CreateGroup({navigation}) {
 const styles = StyleSheet.create({
   
       bottomSheet: {
-        height: '100%', 
+        height: '100%', //change this after design it
         backgroundColor: COLORS.BG, 
         width: '100%', 
         borderTopEndRadius: 50, 
