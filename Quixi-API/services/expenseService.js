@@ -15,12 +15,18 @@ exports.fetchAllExpenses = async () => {
 };
 
 exports.fetchExpenseById = async (expenseId) => {
+    const expense = await expenseSchema.findById(expenseId);
+    return expense;
 };
 
 exports.updateExpenseById = async (expenseId) => {
+    const updatedExpense = await expenseSchema.findByIdAndUpdate(expenseId, updatedData, { new: true });
+    return updatedExpense;
 };
 
 exports.deleteExpenseById = async (expenseId) => {
+    const deletedExpense = await expenseSchema.findByIdAndDelete(expenseId);
+    return deletedExpense;
 };
 
 exports.createTransaction = async (transactionData, expenseId) => {
@@ -32,13 +38,21 @@ exports.createTransaction = async (transactionData, expenseId) => {
 };
 
 exports.fetchAllTransactions = async (expenseId) => {
+    const transactions = await transactionSchema.find({ expenseId });
+    return transactions;
 };
 
 exports.fetchTransactionById = async (transactionId) => {
+    const transaction = await transactionSchema.findById(transactionId);
+    return transaction;
 };
 
 exports.updateTransactionById = async (transactionId) => {
+    const updatedTransaction = await transactionSchema.findByIdAndUpdate(transactionId, updatedData, { new: true });
+    return updatedTransaction;
 };
 
 exports.deleteTransactionById = async (transactionId) => {
+    const deletedTransaction = await transactionSchema.findByIdAndDelete(transactionId);
+    return deletedTransaction;
 };
